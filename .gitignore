@@ -10,6 +10,7 @@ Thumbs.db
 /node_modules
 /bower_components
 /build
+/manifest
 
 # favicon file
 faviconData.json

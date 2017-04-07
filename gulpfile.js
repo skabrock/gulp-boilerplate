@@ -5,7 +5,6 @@ const del = require('del');
 const gulpIf = require('gulp-if');
 const postcss = require('gulp-postcss');
 const atImport = require('postcss-import');
-const stylelint = require('stylelint');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const concat = require('gulp-concat');
@@ -26,7 +25,6 @@ gulp.task('clean', () => {
 gulp.task('styles', () => {
   const plugins = [
     atImport(),
-    stylelint(),
     autoprefixer({browsers: ['last 3 version']}),
     cssnano()
   ];
