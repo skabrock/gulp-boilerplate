@@ -1,0 +1,1 @@
+confirm('do you like my new boilerplate?')

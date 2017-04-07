@@ -37,7 +37,6 @@ gulp.task('styles', () => {
     }))
     .pipe(gulpIf(isDevelopment, sourcemaps.init()))
     .pipe(postcss(plugins))
-    .pipe(concat('application.css'))
     .pipe(gulpIf(isDevelopment, sourcemaps.write()))
     .pipe(gulpIf(!isDevelopment, rev()))
     .pipe(gulp.dest('build'))
@@ -47,13 +46,27 @@ gulp.task('styles', () => {
 gulp.task('html', function() {
   return gulp.src('assets/html/*.html')
     .pipe(gulpIf(!isDevelopment, revReplace({
-      manifest: gulp.src('manifest/css.json', {allowEmpty: true})
+      manifest: gulp.src(['manifest/css.json', 'manifest/js.json'], {allowEmpty: true})
     })))
+    .pipe(gulp.dest('build'));
+});
+
+
+gulp.task('js', function() {
+  return gulp.src('assets/js/*.js')
+    .pipe(plumber({
+      errorHandler: notify.onError(err => ({
+        title: 'Scripts',
+        message: err.message
+      }))
+    }))
+    .pipe(gulpIf(!isDevelopment, rev()))
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('watch', function() {
   gulp.watch('assets/styles/**/*.css', gulp.series('styles'));
+  gulp.watch('assets/js/**/*.js', gulp.series('js'));
   gulp.watch('assets/html/**/*.html', gulp.series('html'));
 });
 
@@ -64,6 +77,6 @@ gulp.task('serve', function() {
   browserSync.watch('build/**/*.*').on('change', browserSync.reload);
 });
 
-gulp.task('build', gulp.series('clean', 'styles', 'html'));
+gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'js'), 'html'));
 
-gulp.task('dev', gulp.series('build', gulp.parallel('watch', 'serve')));
+gulp.task('dev', gulp.series('default', gulp.parallel('watch', 'serve')));
