@@ -1,0 +1,33 @@
+{
+  "name": "gulp-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "browser-sync": "^2.18.8",
+    "combine": "^0.1.4",
+    "cssnano": "^3.10.0",
+    "del": "^2.2.2",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^6.4.0",
+    "gulp-rev": "^7.1.2",
+    "gulp-rev-replace": "^0.4.3",
+    "gulp-sourcemaps": "^2.5.1",
+    "postcss-import": "^9.1.0",
+    "stream-combiner2": "^1.1.1",
+    "stylelint": "^7.10.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "skabr",
+  "license": "MIT"
+}
