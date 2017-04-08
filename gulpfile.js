@@ -15,6 +15,8 @@ const rev = require('gulp-rev');
 const revReplace = require('gulp-rev-replace');
 const combine = require('stream-combiner2').obj;
 const browserSync = require('browser-sync').create();
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -60,6 +62,8 @@ gulp.task('js', function() {
         message: err.message
       }))
     }))
+    .pipe(babel({presets: ['env']}))
+    .pipe(uglify())
     .pipe(gulpIf(!isDevelopment, rev()))
     .pipe(gulp.dest('build'));
 });

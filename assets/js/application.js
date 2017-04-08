@@ -1,1 +1,2 @@
-confirm('do you like my new boilerplate?')
+let greetings = 'Hi! Do you like my new boilerplate?';
+confirm(greetings)
