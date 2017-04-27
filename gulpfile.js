@@ -17,6 +17,7 @@ const combine = require('stream-combiner2').obj;
 const browserSync = require('browser-sync').create();
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
+const imagemin = require('gulp-imagemin');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -45,7 +46,7 @@ gulp.task('styles', () => {
     .pipe(gulpIf(!isDevelopment, combine(rev.manifest('css.json'), gulp.dest('manifest'))));
 });
 
-gulp.task('html', function() {
+gulp.task('html', () => {
   return gulp.src('assets/html/*.html')
     .pipe(gulpIf(!isDevelopment, revReplace({
       manifest: gulp.src(['manifest/css.json', 'manifest/js.json'], {allowEmpty: true})
@@ -53,8 +54,12 @@ gulp.task('html', function() {
     .pipe(gulp.dest('build'));
 });
 
+gulp.task('fonts', () => {
+  return gulp.src('assets/fonts/**/*.{eot,svg,ttf,woff,woff2}')
+    .pipe(gulp.dest('build/fonts'));
+});
 
-gulp.task('js', function() {
+gulp.task('js', () => {
   return gulp.src('assets/js/*.js')
     .pipe(plumber({
       errorHandler: notify.onError(err => ({
@@ -65,22 +70,36 @@ gulp.task('js', function() {
     .pipe(babel({presets: ['env']}))
     .pipe(uglify())
     .pipe(gulpIf(!isDevelopment, rev()))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('build'))
+    .pipe(gulpIf(!isDevelopment, combine(rev.manifest('js.json'), gulp.dest('manifest'))));
 });
 
-gulp.task('watch', function() {
+gulp.task('images', () => {
+  return gulp.src('assets/images/**/*.{jpg,gif,svg,png}', {since: gulp.lastRun('images')})
+    .pipe(plumber({
+      errorHandler: notify.onError(err => ({
+        title: 'Images',
+        message: err.message
+      }))
+    }))
+    .pipe(imagemin())
+    .pipe(gulp.dest('build/images'));
+});
+
+gulp.task('watch', () => {
   gulp.watch('assets/styles/**/*.css', gulp.series('styles'));
   gulp.watch('assets/js/**/*.js', gulp.series('js'));
   gulp.watch('assets/html/**/*.html', gulp.series('html'));
+  gulp.watch('assets/images/**/*', gulp.series('images'));
 });
 
-gulp.task('serve', function() {
+gulp.task('serve', () => {
   browserSync.init({
     server: 'build'
   });
   browserSync.watch('build/**/*.*').on('change', browserSync.reload);
 });
 
-gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'js'), 'html'));
+gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'js', 'images', 'fonts'), 'html'));
 
 gulp.task('dev', gulp.series('default', gulp.parallel('watch', 'serve')));
