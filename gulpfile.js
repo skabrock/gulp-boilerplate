@@ -18,6 +18,7 @@ const browserSync = require('browser-sync').create();
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
+const include = require('gulp-include');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -67,6 +68,7 @@ gulp.task('js', () => {
         message: err.message
       }))
     }))
+    .pipe(include())
     .pipe(babel({presets: ['env']}))
     .pipe(uglify())
     .pipe(gulpIf(!isDevelopment, rev()))
