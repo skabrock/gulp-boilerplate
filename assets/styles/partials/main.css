@@ -1,3 +1,15 @@
-.main {
-  lol: 'lol';
+.heading {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 20px;
+  line-height: 50px;
+}
+
+.welcome {
+  margin: 40px 0;
+  font-family: MuseoSans;
+}
+
+.feedback {
+  font-family: MuseoSans;
 }

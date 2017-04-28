@@ -21,6 +21,7 @@ const imagemin = require('gulp-imagemin');
 const include = require('gulp-include');
 const fs = require('fs');
 const realFavicon = require('gulp-real-favicon');
+const fontpath = require('postcss-fontpath');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -31,6 +32,7 @@ gulp.task('clean', () => {
 gulp.task('styles', () => {
   const plugins = [
     atImport(),
+    fontpath(),
     autoprefixer({browsers: ['last 3 version']}),
     cssnano()
   ];
@@ -99,7 +101,16 @@ gulp.task('watch', () => {
 
 gulp.task('serve', () => {
   browserSync.init({
-    server: 'build'
+    ui: {
+      port: process.env.UIPORT || 3031
+    },
+    port: process.env.PORT || 3030,
+    server: {
+      baseDir: 'build',
+      routes: {
+        "/node_modules": "node_modules"
+      }
+    }
   });
   browserSync.watch('build/**/*.*').on('change', browserSync.reload);
 });
