@@ -1,4 +1,6 @@
 @import "normalize-css/normalize";
 @import "settings/fonts";
+@import "settings/main";
 @import "partials/header";
-@import "partials/main";
+@import "partials/welcome";
+@import "partials/feedback";

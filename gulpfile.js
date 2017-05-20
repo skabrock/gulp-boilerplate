@@ -19,14 +19,12 @@ const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
 const include = require('gulp-include');
-const fs = require('fs');
-const realFavicon = require('gulp-real-favicon');
 const fontpath = require('postcss-fontpath');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 gulp.task('clean', () => {
-  return del(['build/**/*', '!build/android-chrome*.png', '!build/apple-touch-*.png', '!build/assetimfavicon.svg', '!build/browserconfig.xml', '!build/favicon-*.png', '!build/favicon.ico', '!build/faviconData.json', '!build/manifest.json', '!build/mstile-*.png', '!build/safari-pinned-tab.svg']);
+  return del(['build/**/*']);
 });
 
 gulp.task('styles', () => {
@@ -81,7 +79,7 @@ gulp.task('js', () => {
 });
 
 gulp.task('images', () => {
-  return gulp.src(['assets/images/**/*.{jpg,gif,svg,png}', '!assets/images/favicon.*'], {since: gulp.lastRun('images')})
+  return gulp.src('assets/images/**/*.{jpg,gif,svg,png}', {since: gulp.lastRun('images')})
     .pipe(plumber({
       errorHandler: notify.onError(err => ({
         title: 'Images',
@@ -118,62 +116,3 @@ gulp.task('serve', () => {
 gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'js', 'images', 'fonts'), 'html'));
 
 gulp.task('dev', gulp.series('default', gulp.parallel('watch', 'serve')));
-
-
-gulp.task('generate-favicon', done => {
-  realFavicon.generateFavicon({
-    masterPicture: 'assets/images/favicon.svg',
-    dest: 'build',
-    iconsPath: '/',
-    design: {
-      ios: {
-        pictureAspect: 'backgroundAndMargin',
-        backgroundColor: '#ffffff',
-        margin: '25%',
-      },
-      desktopBrowser: {},
-      windows: {
-        pictureAspect: 'whiteSilhouette',
-        backgroundColor: '#2d89ef',
-        onConflict: 'override',
-      },
-      androidChrome: {
-        pictureAspect: 'backgroundAndMargin',
-        margin: '23%',
-        backgroundColor: '#ffffff',
-        themeColor: '#ffffff',
-        manifest: {
-          name: 'gulp template',
-          display: 'browser',
-          orientation: 'notSet',
-          onConflict: 'override',
-          declared: true,
-        }
-      },
-      safariPinnedTab: {
-        pictureAspect: 'silhouette',
-        themeColor: '#404040',
-      }
-    },
-    settings: {
-      compression: 2,
-      scalingAlgorithm: 'Mitchell',
-      errorOnImageTooSmall: false,
-    },
-    markupFile: 'build/faviconData.json',
-  }, () => {
-    done()
-  });
-});
-
-gulp.task('inject-favicon-markups', () => {
-  return gulp.src('assets/html/*.html')
-    .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync('build/faviconData.json')).favicon.html_code))
-    .pipe(gulp.dest('assets/html/'));
-});
-
-gulp.task('clean-favicon', () => {
-  return del(['build/android-chrome*.png', 'build/apple-touch-*.png', 'build/assetimfavicon.svg', 'build/browserconfig.xml', 'build/favicon-*.png', 'build/favicon.ico', 'build/faviconData.json', 'build/manifest.json', 'build/mstile-*.png', 'build/safari-pinned-tab.svg']);
-});
-
-gulp.task('favicon', gulp.series('clean-favicon', 'generate-favicon', 'inject-favicon-markups'));

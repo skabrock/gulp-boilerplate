@@ -26,20 +26,19 @@ You can see 'build/' directory in the root of your project. Live reload server w
 **3030 port by default. If you want to set another port, use:**
 
     PORT=YOUR_PORT gulp dev
-    
+
 ### Commands
 make static build
 
     gulp
 
-generate favicon
+run development server with live reload
 
-    gulp favicon
+    gulp dev
 
 clean all generated files
 
     gulp clean
-    gulp clean-favicon
 
 **Note:**
 

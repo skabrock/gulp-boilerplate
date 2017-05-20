@@ -1,0 +1,18 @@
+.welcome {
+  margin: 40px 0;
+}
+
+.welcome__image {
+  vertical-align: bottom;
+}
+
+.welcome__heading {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 20px;
+  line-height: 50px;
+  color: #161616;
+  font-size: 36px;
+  font-family: MuseoSans;
+  vertical-align: bottom;
+}
