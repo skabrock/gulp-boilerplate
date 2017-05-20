@@ -100,6 +100,7 @@ gulp.task('watch', () => {
   gulp.watch('assets/js/**/*.js', gulp.series('js'));
   gulp.watch('assets/html/**/*.html', gulp.series('html'));
   gulp.watch('assets/images/**/*', gulp.series('images'));
+  gulp.watch('assets/public/**/*', gulp.series('public'));
 });
 
 gulp.task('serve', () => {
@@ -118,6 +119,6 @@ gulp.task('serve', () => {
   browserSync.watch('build/**/*.*').on('change', browserSync.reload);
 });
 
-gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'js', 'images', 'fonts'), 'html'));
+gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'js', 'images', 'fonts', 'public', 'html')));
 
 gulp.task('dev', gulp.series('default', gulp.parallel('watch', 'serve')));
