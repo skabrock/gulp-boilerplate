@@ -1,4 +1,4 @@
-# **Gulp Boilerplate v2.0**
+# **Gulp Boilerplate**
 
 ## **QUICK START**
 
@@ -6,14 +6,9 @@ Clone repository to your local machine
 
     git clone git@git.dowell.com.ua:shared/gulp-boilerplate.git
 
-Install global dependencies:
-
-    npm install -g gulp bower
-
 Install packages:
 
-    bower install
-    npm install
+    npm install / yarn
 
 All your source files located in assets directory by default.
 

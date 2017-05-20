@@ -57,6 +57,11 @@ gulp.task('html', () => {
     .pipe(gulp.dest('build'));
 });
 
+gulp.task('public', () => {
+  return gulp.src('assets/public/**/*')
+    .pipe(gulp.dest('build'));
+});
+
 gulp.task('fonts', () => {
   return gulp.src('assets/fonts/**/*.{eot,svg,ttf,woff,woff2}')
     .pipe(gulp.dest('build/fonts'));
