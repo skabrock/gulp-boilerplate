@@ -4,9 +4,6 @@ const gulp = require('gulp');
 const del = require('del');
 const gulpIf = require('gulp-if');
 const postcss = require('gulp-postcss');
-const atImport = require('postcss-import');
-const cssnano = require('cssnano');
-const autoprefixer = require('autoprefixer');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
 const notify = require('gulp-notify');
@@ -19,7 +16,6 @@ const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
 const include = require('gulp-include');
-const fontpath = require('postcss-fontpath');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -29,10 +25,11 @@ gulp.task('clean', () => {
 
 gulp.task('styles', () => {
   const plugins = [
-    atImport(),
-    fontpath(),
-    autoprefixer({browsers: ['last 3 version']}),
-    cssnano()
+    require('postcss-import')(),
+    require('postcss-nested')(),
+    require('postcss-fontpath')(),
+    require('autoprefixer')({browsers: ['last 3 version']}),
+    require('cssnano')(),
   ];
   return gulp.src('assets/styles/*.css')
     .pipe(plumber({
