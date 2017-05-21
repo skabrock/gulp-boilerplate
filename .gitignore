@@ -7,6 +7,9 @@ Thumbs.db
 # webstorm settings
 /.idea
 
+# github theme
+_config.yml
+
 /node_modules
 /bower_components
 /build
