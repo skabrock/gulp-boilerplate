@@ -4,7 +4,7 @@
 
 Clone repository to your local machine
 
-    git clone git@git.dowell.com.ua:shared/gulp-boilerplate.git
+    git clone git@github.com:skabrock/gulp-boilerplate.git
 
 Install packages:
 
